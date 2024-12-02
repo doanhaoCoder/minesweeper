@@ -1,6 +1,5 @@
 name: CI/CD for React App
 
-# Workflow này sẽ chạy khi có push lên nhánh main hoặc khi tạo pull request vào nhánh main
 on:
   push:
     branches:
@@ -11,20 +10,20 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Chạy trên môi trường Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
       # Checkout mã nguồn từ repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Cài đặt Node.js (sử dụng Node.js phiên bản 14)
+      # Cài đặt Node.js (sử dụng phiên bản 14)
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      # Cài đặt các phụ thuộc từ package.json
+      # Cài đặt các phụ thuộc
       - name: Install dependencies
         run: npm install
 
@@ -36,14 +35,14 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      # (Tuỳ chọn) Xây dựng Docker image nếu bạn muốn đóng gói ứng dụng
+      # (Tuỳ chọn) Xây dựng Docker image
       - name: Build Docker image (Optional)
         run: |
           docker build -t my-react-app .
 
-      # (Tuỳ chọn) Upload Docker image như một artifact (nếu cần)
+      # (Tuỳ chọn) Upload Docker image artifact
       - name: Upload Docker image artifact (Optional)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: my-react-app-image
           path: my-react-app.tar.gz
