@@ -1,48 +1,47 @@
-name: CI/CD for React App
+name: Node.js CI/CD
 
 on:
   push:
     branches:
-      - main
+      - main  # Chạy khi có push vào nhánh main
   pull_request:
     branches:
-      - main
+      - main  # Chạy khi có pull request vào nhánh main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout mã nguồn từ repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Cài đặt Node.js (sử dụng phiên bản 14)
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'  # Phiên bản Node.js
 
-      # Cài đặt các phụ thuộc
       - name: Install dependencies
         run: npm install
 
-      # Chạy các bài kiểm tra
       - name: Run tests
-        run: npm test -- --ci --silent
+        run: npm test
 
-      # Build ứng dụng React
-      - name: Build React app
-        run: npm run build
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build  # Chạy deploy sau khi job build thành công
 
-      # (Tuỳ chọn) Xây dựng Docker image
-      - name: Build Docker image (Optional)
-        run: |
-          docker build -t my-react-app .
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # (Tuỳ chọn) Upload Docker image artifact
-      - name: Upload Docker image artifact (Optional)
-        uses: actions/upload-artifact@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          name: my-react-app-image
-          path: my-react-app.tar.gz
+          node-version: '16'
+
+      - name: Deploy to Production
+        run: |
+          echo "Deploying to production..."
+          # Các lệnh deploy của bạn, ví dụ:
+          # ssh user@server 'deploy-script.sh'
