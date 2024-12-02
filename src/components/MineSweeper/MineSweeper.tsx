@@ -286,6 +286,15 @@ export const MineSweeper:React.FC<MineSweeperProps> = (props)=>{
                     >
                         Đặt lại trò chơi
                     </button>
+
+                    <button
+                        className="mine-sweeper-button"
+                        style= {panelButton2Style}
+                        onClick={()=>selectDifficulty()}
+                        data-testid="change-difficulty"
+                    >
+                        Thay đổi màn chơi
+                    </button>
                 </div>
             </div>
         </div>
