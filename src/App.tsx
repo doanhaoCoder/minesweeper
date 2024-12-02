@@ -2,6 +2,7 @@ import React, {
     useState, 
 } from 'react';
 import {
+    SelectDifficulty,
     MineSweeper,
 } from './components';
 
@@ -21,6 +22,13 @@ export default function App(){
         mineCount,setMineCount,
     ] = useState(0);
 
+    function showGame(width:number,height:number,mineCount:number):void{
+        setIsShowGame(true);
+        setWidth(width);
+        setHeight(height);
+        setMineCount(mineCount);
+    }
+
     function selectDifficulty():void{
         setIsShowGame(false);
     }
@@ -28,12 +36,15 @@ export default function App(){
     return (
         <div className="app">
             <div className={`app-main ${isShowGame?'show-game':''}`}>
+                <SelectDifficulty 
+                    showGame={showGame}
+                />
                 <MineSweeper
                     selectDifficulty={selectDifficulty}
-                    play={true}
-                    width={8}
-                    height={8}
-                    mineCount={10}
+                    play={isShowGame}
+                    width={width}
+                    height={height}
+                    mineCount={mineCount}
                 />
             </div>
         </div>
